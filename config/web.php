@@ -6,7 +6,7 @@ $db = require __DIR__ . '/db.php';
 
 $config = [
     'id' => 'basic',
-    'name'=>'KPI-PHAHOL',
+    'name'=>'RegCard',
     'language'=>'th_TH',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
@@ -16,6 +16,17 @@ $config = [
         '@npm'   => '@vendor/npm-asset',
     ],
     'components' => [
+        'assetManager' => [
+			'bundles' => [
+				'dosamigos\google\maps\MapAsset' => [
+				'options' => [
+					'key' => 'AIzaSyBSsKUzYG_Wz7u2qL6unHqfBOmvaZ0H1Mg',// ใส่ API Regcard
+					'language' => 'th',
+					'version' => '3.1.18'
+					]
+				]
+			]
+		], 
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => 'UB6B0iFnOzmOIFIZ2yXZat-cPVtDfII8',
@@ -116,24 +127,24 @@ $config = [
       'admin' => [
         'class' => 'mdm\admin\Module',
         'layout'=>'left-menu'
-        ],
-      'kpi' => [
-        'class' => 'app\modules\kpi\Module',
+        ],      
+         'license' => [
+            'class' => 'app\modules\license\License',
         ],
           
     ],
     'as access' => [
         'class' => 'mdm\admin\components\AccessControl',
         'allowActions' => [
-            '*'
-            //'site/*',
-            //'user/admin/*',
-            //'users/*',
+            '*',
+            'site/*',
+//            'user/admin/*',
+//            'users/*',
 //            'admin/*',
 //            'rbac/*',
-            //'risk/*',
-//            'gii/*',
-//            'grid/*'
+            'risk/*',
+            'gii/*',
+            'grid/*'
         ]
     ],
     'params' => $params,

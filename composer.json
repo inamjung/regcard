@@ -38,7 +38,8 @@
         "yii2mod/yii2-sweet-alert": "*",
         "miloschuman/yii2-highcharts-widget": "dev-master",
         "karatae99/yii2-date-picker-thai-widget": "~1.0",
-        "simonmesmith/yii2-justgage": "*"
+        "simonmesmith/yii2-justgage": "*",
+        "2amigos/yii2-google-maps-library": "*"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",

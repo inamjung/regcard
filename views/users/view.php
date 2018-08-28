@@ -6,8 +6,9 @@ use yii\widgets\DetailView;
 /* @var $model app\models\Users */
 ?>
 <div class="users-view">
- 
-    <?= DetailView::widget([
+
+    <?=
+    DetailView::widget([
         'model' => $model,
         'attributes' => [
             //'id',
@@ -25,31 +26,23 @@ use yii\widgets\DetailView;
 //            'last_login_at',
 //            'status',
 //            'password_reset_token',
-            
-       [
+            [
                 'attribute' => 'name',
                 'value' => function($model) {
                     return $model->pname . '' . $model->name;
                 },
             ],
-                [
+            [
                 'attribute' => 'dep_id',
                 'value' => function($model) {
                     $model = \app\models\Departments::find()->where(['id' => $model->dep_id])->one();
                     return $model->name;
                 },
             ],
-                [
-                'attribute' => 'occ_id',
-                'value' => function($model) {
-                    $model = app\models\Occupations::find()->where(['id' => $model->occ_id])->one();
-                    return $model->name;
-                },
-            ],
-                [
+            [
                 'attribute' => 'pos_no',
             ],
-                [
+            [
                 'attribute' => 'pos_id',
                 'value' => function($model) {
                     $model = app\models\Positions::find()->where(['id' => $model->pos_id])->one();
@@ -62,7 +55,7 @@ use yii\widgets\DetailView;
                 'value' => function($model) {
                     if ($model->role == 1) {
                         return 'Admin';
-                    }                   
+                    }
                     if ($model->role == 10) {
                         return 'User';
                     }

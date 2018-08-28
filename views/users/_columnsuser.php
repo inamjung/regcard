@@ -40,24 +40,26 @@ return [
      [
          'class'=>'\kartik\grid\DataColumn',
          'attribute'=>'name',
-         'value' => function($model) {           
+         'value' => function($model) {  
+            $uname = app\models\Users::find()->where(['id'=>$model->id])->one();
+            if($model->name !=''){
             return $model->pname.''.$model->name;
+            } else {
+               return ''; 
+            }
         },
      ],     
-     [
-         'class'=>'\kartik\grid\DataColumn',
-         'attribute'=>'occ_id',
-        'value' => function($model) {
-            $model = app\models\Occupations::find()->where(['id' => $model->occ_id])->one();
-            return $model->name;
-        },
-     ],     
+          
      [
          'class'=>'\kartik\grid\DataColumn',
          'attribute'=>'pos_id',
          'value' => function($model) {
-            $model = app\models\Positions::find()->where(['id' => $model->pos_id])->one();
-            return $model->name;
+            $upos = app\models\Positions::find()->where(['id' => $model->pos_id])->one();
+            if($model->pos_id !=''){
+                return $upos->name;
+                } else {
+                   return ''; 
+                }
         },
      ],
      [
@@ -68,8 +70,12 @@ return [
          'class'=>'\kartik\grid\DataColumn',
          'attribute'=>'dep_id',
          'value' => function($model) {
-            $model = \app\models\Departments::find()->where(['id' => $model->dep_id])->one();
-            return $model->name;
+            $udep = app\models\Departments::find()->where(['id' => $model->dep_id])->one();
+            if($model->dep_id !=''){
+                return $udep->name;
+                } else {
+                   return ''; 
+                }
         },
      ],           
      [

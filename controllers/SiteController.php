@@ -61,7 +61,7 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->redirect(['/kpi/kpi/index']);
+        return $this->render('index');
     }
 
     /**

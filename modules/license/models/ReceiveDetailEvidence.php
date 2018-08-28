@@ -1,0 +1,48 @@
+<?php
+
+namespace app\modules\license\models;
+
+use Yii;
+
+/**
+ * This is the model class for table "receive_detail_evidence".
+ *
+ * @property integer $id
+ * @property integer $receive_id
+ * @property integer $evidence_id
+ */
+class ReceiveDetailEvidence extends \yii\db\ActiveRecord
+{
+    /**
+     * @inheritdoc
+     */
+    public static function tableName()
+    {
+        return 'receive_detail_evidence';
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function rules()
+    {
+        return [
+            [['receive_id', 'evidence_id'], 'integer'],
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function attributeLabels()
+    {
+        return [
+            'id' => 'สถาพสถานที่',
+            'receive_id' => 'Receive ID',
+            'evidence_id' => 'เอกสาร/หลักฐานที่นำมา',
+        ];
+    }
+    public function getEvidencename(){
+        return $this->hasOne(Evidence::className(), ['id'=>'evidence_id']);
+    }
+}

@@ -1,17 +1,6 @@
 <?php
 
-/**
- * @var string $content
- * @var \yii\web\View $this
- */
 use yii\helpers\Html;
-use dektrium\user\models\User;
-use yii\helpers\Url;
-use yii\bootstrap\Modal;
-use johnitvn\ajaxcrud\CrudAsset;
-use johnitvn\ajaxcrud\BulkButtonWidget;
-use app\models\Users;
-
 
 $bundle = yiister\gentelella\assets\Asset::register($this);
 ?>
@@ -35,12 +24,8 @@ $bundle = yiister\gentelella\assets\Asset::register($this);
     <body class="nav-<?= !empty($_COOKIE['menuIsCollapsed']) && $_COOKIE['menuIsCollapsed'] == 'true' ? 'sm' : 'md' ?>" >
         <?php $this->beginBody(); ?>
         <?php
-        //$cuser = User::find()->count();
-        //$ckpi = \app\modules\kpi\models\Kpi::find()->count();
-        
-    
-    
-    ?>
+        $this->registerJsFile('@web/smartcard/script.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
+        ?>
         <div class="container body">
 
             <div class="main_container">
@@ -48,15 +33,22 @@ $bundle = yiister\gentelella\assets\Asset::register($this);
                 <div class="col-md-3 left_col">
                     <div class="left_col scroll-view">
 
+                        <?php if(!Yii::$app->user->isGuest):?>
                         <div class="navbar nav_title" style="border: 0;">
-                            <a href="<?= Yii::$app->homeUrl ?>" class="site_title">
-                                <img style="height:40px; width:auto; margin-top:-5px;" src="./img/logo.png"> 
-                                <span><?= Yii::$app->name ?></span></a>
+                            <a href="<?= Yii::$app->homeUrl ;?>" class="site_title"><i class="fa fa-paw"></i> <span><?= Yii::$app->name ;?></span></a>
                         </div>
                         <div class="clearfix"></div>
 
                         <!-- menu prile quick info -->
-
+                        <!--                        <div class="profile">
+                                                    <div class="profile_pic">
+                                                        <img src="http://placehold.it/128x128" alt="..." class="img-circle profile_img">
+                                                    </div>
+                                                    <div class="profile_info">
+                                                        <span>Welcome,</span>
+                                                        <h2>John Doe</h2>
+                                                    </div>
+                                                </div>-->
                         <!-- /menu prile quick info -->
 
                         <br />
@@ -64,118 +56,84 @@ $bundle = yiister\gentelella\assets\Asset::register($this);
                         <!-- sidebar menu -->
                         <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
 
+                            
                             <div class="menu_section">
                                 <div class="" style="font-size: 20px; color: white; padding-left: 10px; ">
                                     เมนู
                                 </div>
-                                <?=
-                        \yiister\gentelella\widgets\Menu::widget(
-                            [
-                                "items" => [
-                                    //["label" => "Home", "url" => "/", "icon" => "home"],
-                                    //["label" => "Layout", "url" => ["site/layout"], "icon" => "files-o"],
-                                    //["label" => "Error page", "url" => ["site/error-page"], "icon" => "close"],
-                                    
-                                    [
-                                        "label" => "ตั้งค่า-ข้อมูลพื้นฐาน",
-                                        "icon" => "cog",
-                                        "url" => "#",
-                                        "visible"=> !Yii::$app->user->isGuest && Yii::$app->user->identity->role == Users::ROLE_ADMIN,
-                                        "items" => [
-                                           // ["label" => "ตั้งค่า", "url" => ["/share/s-group"],'active' => $this->context->route == 'share/s-group/index'],
-                                           ["label" => "สมาชิก", "url" => ["/users/index"],
-                                           //'active' => true,
-                                           "badge" => '',
-                                           "badgeOptions" => ["class" => "label-info"],
-                                            ],
-                                            ["label" => "หน่วยงาน", "url" => ["/departments/index"],
-                                                //'active' => true,
-                                                //"badge" => $member,
-                                               // "badgeOptions" => ["class" => "label-info"],
-                                            ],
-                                            ["label" => "กลุ่มงาน", "url" => ["/groups/index"],
-                                            //"badge" => $member,
-                                            //"badgeOptions" => ["class" => "label-info"],
-                                            ],
-                                            ["label" => "ตำแหน่ง", "url" => ["/positions/index"],
-                                            //"badge" => $member,
-                                            //"badgeOptions" => ["class" => "label-info"],
-                                            ],
-                                            ["label" => "อาชีพ", "url" => ["/occupations/index"],
-                                            //"badge" => $member,
-                                            //"badgeOptions" => ["class" => "label-info"],
-                                            ],                                            
-                                        ],                                       
-                                    ],
-                                    [
-                                        "label" => "ตั้งค่า-KPI",
-                                        "icon" => "cog",
-                                        "url" => "#",
-                                       "visible"=> !Yii::$app->user->isGuest && Yii::$app->user->identity->role == Users::ROLE_ADMIN,
-                                        "items" => [                                           
-                                           ["label" => "ปีงบประมาณ", "url" => ["/kpi/kpiyear/index"],
-                                            //'active' => true,
-                                            ],
-                                            ["label" => "หน่วยงานkpi", "url" => ["/kpi/kpidepart/index"],
-                                            ],
-                                            ["label" => "ความถี่", "url" => ["/kpi/kpiperiod/index"],
-                                            ],
-                                            ["label" => "ประเภทkpi", "url" => ["/kpi/kpitype/index"],
-                                            ],
-                                            ["label" => "ประเภทหมวด", "url" => ["/kpi/k-mond/index"],
-                                            ],
-                                            ["label" => "ประเภทโครงการ", "url" => ["/kpi/k-kong/index"],
-                                            ],
-                                            ["label" => "ประเภทแผนที่", "url" => ["/kpi/k-pan/index"],
-                                            ],
-                                            ["label" => "ประเภทการแสดงผล", "url" => ["/kpi/k-level/index"],
-                                            ],
-                                        ],                                       
-                                    ],
-                                    [
-                                        "label" => "จัดการKPI",
-                                        "url" => "#",
-                                        "icon" => "list",
-                                        "items" => [                                             
-                                            [
-                                                "label" => "TemplateKpi",
-                                                "url" => ["/kpi/kpi-head/index"],
-                                                "icon" => "hourglass",
-                                                //"badge" => ,
-                                                'active' => true,
-                                                "badgeOptions" => ["class" => "label-info"],
-                                            ],
-                                            [
-                                                "label" => "Kpi",
-                                                "url" => ["/kpi/kpi/index"],
-                                                "icon" => "pushpin",
-                                                //"badge" => ,                                               
-                                                "badgeOptions" => ["class" => "label-info"],
-                                            ],
-//                                            [
-//                                                "label" => "kpidata",
-//                                                "url" => ["/kpi/kpidata/index"],
-//                                                "icon" => "warning",
-//                                                //"badge" => $kuse,
-//                                                "badgeOptions" => ["class" => "label-info"],
-//                                            ],
-                                            
-                                        ],
-                                        "visible"=> !Yii::$app->user->isGuest ,
-                                    ],
 
-                                ],
-                            ]
-                        )
-                        ?>
+                                <?=
+                                \yiister\gentelella\widgets\Menu::widget(
+                                        [
+                                            "items" => [
+                                                ["label" => "หน้าหลัก", "url" => Yii::$app->homeUrl, "icon" => "home"],
+
+                                                [
+                                                    "label" => "ตั้งค่า",
+                                                    "icon" => "cog",
+                                                    "url" => "#",
+                                                    
+                                                    "items" => [
+                                                        ["label" => "เจ้าหน้าที่", "url" => ['/users/index']],
+                                                        ["label" => "หน่วยงาน", "url" => ['/license/regconfig/index']],
+                                                        ["label" => "ตำแหน่ง", "url" => ['/positions/index']],
+                                                        ["label" => "ปีงบประมาณ", "url" => ['/license/tb-year-number/index']],
+                                                        ["label" => "เอกสาร/หลักฐาน", "url" => ['/license/evidence/index']],
+                                                        ["label" => "ข้อกำหนดมาตรฐาน", "url" => ['/license/survey-type/index']],
+                                                        
+                                                        ["label" => "จัดการหมู่บ้าน", "url" => ['/license/village/index']],
+                                                    ],
+                                                    'visible'=>Yii::$app->user->identity->role == \app\models\Users::ROLE_ADMIN,
+                                                ],
+                                                [
+                                                    "label" => "รับคำขอ",
+                                                    "icon" => 'download',
+                                                    
+                                                    "url" => "#",
+                                                    "items" => [
+                                                        
+                                                        ["label" => "ลงทะเบียนคำขอ", 'active'=>true,"url" => ['/license/receive/index']],                                                        
+                                                    ],
+                                                ],
+                                                [
+                                                    "label" => "ตรวจพื้นที่ตั้ง",
+                                                    "icon" => "retweet",
+                                                    "url" => "#",
+                                                    "items" => [
+                                                        ["label" => "บันทึกผลการตรวจ", 'active'=>true,"url" => ['/license/store-at/index']],
+                                                       
+                                                    ],
+                                                ],
+                                                [
+                                                    "label" => "ใบอนุญาต",
+                                                    "icon" => "thumbs-up",
+                                                    "url" => "#",
+                                                    "items" => [
+                                                        ["label" => "ออกใบอนุญาต", 'active'=>true,"url" => ['/license/receive-final/index']],
+                                                        
+                                                    ],
+                                                ],
+                                                [
+                                                    "label" => "ตั้งค่าผู้รับบริการ",
+                                                    "icon" => "list",
+                                                    "url" => "#",
+                                                    "items" => [
+                                                        ["label" => "ผู้รับบริการ", "url" => ['/license/person/indexall']],
+                                                        ["label" => "ที่อยู่ผู้รับบริการ", "url" => ['/license/home/index']],
+                                                        
+                                                    ],
+                                                ],
+                                            ],
+                                        ]
+                                )
+                                ?>
                             </div>
+                            
+                            <?php endif;?>
 
                         </div>
                         <!-- /sidebar menu -->
-
-                        <!-- /menu footer buttons -->
-
-                        <!-- /menu footer buttons -->
+                        
                     </div>
                 </div>
 
@@ -189,41 +147,43 @@ $bundle = yiister\gentelella\assets\Asset::register($this);
                             </div>
 
                             <ul class="nav navbar-nav navbar-right">
-                            <?php if(Yii::$app->user->isGuest) :?>
+                         <?php if (Yii::$app->user->isGuest) { ?>
                                 <li>
-                                    <?php echo Html::a('สมัครใช้งาน</span>', yii\helpers\Url::to(['/user/registration/register'])) ?>
+                                    <?php // echo Html::a('สมัครใช้งาน</span>', yii\helpers\Url::to(['/user/registration/register']))?>
                                 </li>
                                 <li>
-                                    <?php echo Html::a('เข้าสู่ระบบ</span>', yii\helpers\Url::to(['/user/security/login'])) ?>
+
+                                    <?php echo Html::a('เข้าสู่ระบบ</span>', yii\helpers\Url::to(['/user/security/login']))?>
                                 </li>
-                               
-                            <?php endif ;?>   
-                            <?php if(!Yii::$app->user->isGuest) :?> 
-                                <li class="">
-                                    <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-        <!--                                <img src="http://placehold.it/128x128" alt="">John Doe-->
-                                        <?php echo 'สวัสดี'.' '.Yii::$app->user->identity->username; ?>
-                                        <span class=" fa fa-angle-down"></span>
-                                    </a>
 
-                                    <ul class="dropdown-menu dropdown-usermenu pull-right">
+                        <?php }?>
+                        <?php if (!Yii::$app->user->isGuest) { ?>
+                        <li class="">
+                            <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+<!--                                <img src="http://placehold.it/128x128" alt="">John Doe-->
+                                <?php echo Yii::$app->user->identity->username; ?>
+                                <span class=" fa fa-angle-down"></span>
+                            </a>
 
-                                        <li>
-                                            <?php echo Html::a('ข้อมูลส่วนตัว <i class="fa fa-user pull-right"></i>', yii\helpers\Url::to(['/users/indexuser']), ['data-method' => 'post']) ?>
-
-                                        </li>
-
-                                        <li>
-                                            <?php echo Html::a('ออกจากระบบ <i class="fa fa-sign-out pull-right"></i>', yii\helpers\Url::to(['/site/logout']), ['data-method' => 'post']) ?>
-
-                                        </li>
-                                    </ul>
+                            <ul class="dropdown-menu dropdown-usermenu pull-right">
+                                
+                                <li>
+                                    <?php echo Html::a('ข้อมูลส่วนตัว <i class="fa fa-user pull-right"></i>', yii\helpers\Url::to(['/users/indexuser']),['data-method'=>'post'])?>
 
                                 </li>
-                         <?php endif ;?>     
 
+                                <li>
+                                    <?php echo Html::a('ออกจากระบบ <i class="fa fa-sign-out pull-right"></i>', yii\helpers\Url::to(['/site/logout']),['data-method'=>'post'])?>
 
+                                </li>
                             </ul>
+
+                        </li>
+                        <?php }?>
+
+
+
+                    </ul>
                         </nav>
                     </div>
 
@@ -232,7 +192,7 @@ $bundle = yiister\gentelella\assets\Asset::register($this);
 
                 <!-- page content -->
                 <div class="right_col" role="main">
-                    <?php if (isset($this->params['h1'])): ?>
+<?php if (isset($this->params['h1'])): ?>
                         <div class="page-title">
                             <div class="title_left">
                                 <h1><?= $this->params['h1'] ?></h1>
@@ -248,33 +208,33 @@ $bundle = yiister\gentelella\assets\Asset::register($this);
                                 </div>
                             </div>
                         </div>
-                    <?php endif; ?>
+<?php endif; ?>
                     <div class="clearfix"></div>
 
                     <?= $content ?>
                 </div>
                 <!-- /page content -->
                 <!-- footer content -->
-                <!--                <footer>
-                                    <div class="pull-right">
-                                        Gentelella - Bootstrap Admin Template by <a href="https://colorlib.com" rel="nofollow" target="_blank">Colorlib</a><br />
-                                        Extension for Yii framework 2 by <a href="http://yiister.ru" rel="nofollow" target="_blank">Yiister</a>
-                                    </div>
-                                    <div class="clearfix"></div>
-                                </footer>-->
+                <footer>
+                    <div class="pull-right">
+                        ระบบทะเบียนผู้ประกอบกิจการ<br />
+                        copy right @ 2018 
+                    </div>
+                    <div class="clearfix"></div>
+                </footer>
                 <!-- /footer content -->
             </div>
 
         </div>
 
-        <!--        <div id="custom_notifications" class="custom-notifications dsp_none">
-                    <ul class="list-unstyled notifications clearfix" data-tabbed_notifications="notif-group">
-                    </ul>
-                    <div class="clearfix"></div>
-                    <div id="notif-group" class="tabbed_notifications"></div>
-                </div>-->
+        <div id="custom_notifications" class="custom-notifications dsp_none">
+            <ul class="list-unstyled notifications clearfix" data-tabbed_notifications="notif-group">
+            </ul>
+            <div class="clearfix"></div>
+            <div id="notif-group" class="tabbed_notifications"></div>
+        </div>
         <!-- /footer content -->
-        <?php $this->endBody(); ?>
+<?php $this->endBody(); ?>
     </body>
 </html>
-<?php $this->endPage(); ?>
+        <?php $this->endPage(); ?>

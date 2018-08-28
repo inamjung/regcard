@@ -21,6 +21,14 @@ return [
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'group_id',
+        'value'=> function($model){
+        $group = \app\models\Groups::find()->where(['id'=>$model->group_id])->one();
+        if($model->group_id !=''){
+            return $group->name;
+            } else {
+                return '';
+            }
+        }
     ],
     [
         'class' => 'kartik\grid\ActionColumn',

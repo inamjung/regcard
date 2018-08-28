@@ -18,7 +18,7 @@ class UsersSearch extends Users
     public function rules()
     {
         return [
-            [['id', 'confirmed_at', 'blocked_at', 'created_at', 'updated_at', 'flags', 'last_login_at', 'status','dep_id','occ_id','pos_id'], 'integer'],
+            [['id', 'confirmed_at', 'blocked_at', 'created_at', 'updated_at', 'flags', 'last_login_at', 'status','dep_id','pos_id'], 'integer'],
             [['role','username', 'email', 'password_hash', 'auth_key', 'unconfirmed_email', 'registration_ip', 'password_reset_token','name','pname','pos_no'], 'safe'],
         ];
     }
@@ -64,8 +64,7 @@ class UsersSearch extends Users
             'flags' => $this->flags,
             'last_login_at' => $this->last_login_at,
             'status' => $this->status,
-            'dep_id'=> $this->dep_id,
-            'occ_id'=> $this->occ_id,
+            'dep_id'=> $this->dep_id,           
             'pos_id'=> $this->pos_id,
         ]);
 

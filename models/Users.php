@@ -42,12 +42,11 @@ class Users extends BaseUser
     const BEFORE_CONFIRM  = 'beforeConfirm';
     const AFTER_CONFIRM   = 'afterConfirm';
     
-    const ROLE_ADMIN = 1;
-    const ROLE_RM = 2;
+    const ROLE_ADMIN = 1;   
     const ROLE_USER = 10;
-    const ROLE_LEADER = 20;
+   
     
-    public static $role =[1=>'admin',10=>'user',20=>'leader'];
+    public static $role =[1=>'admin',10=>'user'];
     
     public static function tableName()
     {
@@ -61,7 +60,7 @@ class Users extends BaseUser
     {
         return [
             [['username', 'email', 'password_hash', 'auth_key', 'created_at', 'updated_at'], 'required'],
-            [['confirmed_at', 'blocked_at', 'created_at', 'updated_at', 'flags', 'last_login_at', 'status','dep_id','occ_id','pos_id'], 'integer'],
+            [['confirmed_at', 'blocked_at', 'created_at', 'updated_at', 'flags', 'last_login_at', 'status','dep_id','pos_id'], 'integer'],
             [['username', 'email', 'unconfirmed_email', 'password_reset_token','name','pname','pos_no'], 'string', 'max' => 255],
             [['password_hash'], 'string', 'max' => 60],
             [['auth_key'], 'string', 'max' => 32],
@@ -95,11 +94,17 @@ class Users extends BaseUser
             'password_reset_token' => 'Password Reset Token',
             'dep_id'=>'หน่วยงาน',
             'pos_id'=>'ตำแหน่ง',
-            'occ_id'=>'อาชีพ',
+            
             'pos_no'=>'เลขที่ตำแหน่ง',
             'pname'=>'คำนำหน้า',
             'name'=>'ชื่อ-สกุล',
             'role'=>'บทบาท'
         ];
+    }
+    public function getPositionname(){
+        return $this->hasOne(Positions::className(), ['id'=>'pos_id']);
+    }
+    public function getDepname(){
+        return $this->hasOne(Departments::className(), ['id'=>'dep_id']);
     }
 }
